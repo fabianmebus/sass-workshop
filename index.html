@@ -1,0 +1,1911 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>Sass and Modern Front-end Development Workshop</title>
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+  <!--<link rel="stylesheet" href="lib/css/github.css">-->
+
+  <!-- Printing and PDF exports -->
+  <script>
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+    document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+
+  <style>
+    .flex {
+      display: flex;
+    }
+
+    .flex-wrap {
+      flex-wrap: wrap;
+    }
+
+    .flex--center-center {
+      justify-content: center;
+      align-items: center;
+    }
+
+    .flex > * {
+      flex-basis: 50%;
+    }
+
+    .flex--1-3 > * {
+      flex-basis: 33%;
+    }
+
+    .flex--1-4 > * {
+      flex-basis: 25%;
+    }
+
+    b, .highlight {
+      color: #CF649A;
+    }
+
+    .highlight-b {
+      color: #2a4f84;
+    }
+
+    .reveal section img {
+      margin: 15px 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      max-width: 100%;
+    }
+
+    .reveal pre {
+      width: 95%;
+    }
+
+    .text-left {
+      text-align: left;
+    }
+
+    .middle {
+      vertical-align: middle !important;
+    }
+
+    .reveal .middle-dashed {
+      z-index: -1;
+      position: absolute;
+      border: 0;
+      border-bottom: 4px dashed #fff;
+      margin: 0;
+      width: 100%;
+      top: 50%;
+      transform: translateY(-2px);
+    }
+
+    /*        .slides {
+              background-color: black;
+            }*/
+
+    code[class*=css],
+    code[class*=html] {
+      position: relative;
+    }
+
+    code[class*=css]:after,
+    code[class*=html]:after {
+      content: 'CSS';
+      position: absolute;
+      right: 0;
+      top: 0;
+      display: inline-block;
+      padding: .2em .4em;
+      background-color: #2a2a2a;
+    }
+
+    code[class='scss hljs']:after {
+      content: 'SCSS';
+    }
+
+    code[class='sass hljs']:after {
+      content: 'SASS';
+    }
+
+    code[class='css hljs']:after {
+      content: 'CSS';
+    }
+
+    code[class*=html]:after {
+      content: 'HTML';
+    }
+
+    code[class*=css][data-lang]:after,
+    code[class*=html][data-lang]:after {
+      content: attr(data-lang);
+    }
+
+    .reveal .source {
+      /*text-align: left;*/
+      font-size: .4em;
+    }
+
+    table.data-types {
+      margin-top: 3rem;
+    }
+
+    .data-types tr td {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+
+    .data-types tr td:first-child {
+      padding-right: 8rem;
+    }
+
+  </style>
+
+  <style>
+    .reveal .rubber_stamp {
+      z-index: 100;
+      /*font-family: 'Vollkorn', serif;*/
+      font-size: 30px;
+      line-height: 30px;
+      /*text-transform: uppercase;*/
+      font-weight: bold;
+      color: #CF649A;
+      border: 7px solid #CF649A;
+      float: left;
+      padding: 10px 7px;
+      border-radius: 10px;
+      opacity: 0.8;
+      transform: rotate(-10deg) translateX(-50%) translateY(-50%);
+      position: absolute;
+      top: 70%;
+      left: 50%;
+    }
+
+    .reveal .rubber_stamp::after {
+      position: absolute;
+      content: " ";
+      width: 100%;
+      height: auto;
+      min-height: 100%;
+      top: -10px;
+      left: -10px;
+      padding: 10px;
+      /*background: url(img/noise.png) repeat;*/
+    }
+  </style>
+
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <section>
+      <h1><b>Sass</b> and Modern Front-end Development</h1>
+    </section>
+
+    <!--
+    Warm up
+    ========================================================= -->
+    <section data-background-color="#c6538c">
+      <h1>Warm up</h1>
+    </section>
+
+    <section>
+      <h2>What is Sass?</h2>
+      <ul>
+        <li class="fragment"><b>Sass</b> is a stylesheet language that is <i>an extension of CSS</i></li>
+        <li class="fragment">Sass = <b>S</b>yntactically <b>A</b>wesome <b>S</b>tyle <b>S</b>heets</li>
+        <li class="fragment">It is one of a few CSS preprocessors</li>
+      </ul>
+      <p class="flex flex--1-4 flex--center-center">
+        <span class="fragment"><img src="img/sass-logo.svg" alt="sass logo" width="60%"></span>
+        <span class="fragment"><img src="img/less-logo.svg" alt="less logo" width="60%"></span>
+        <span class="fragment"><img src="img/stylus-logo-white.svg" alt="stylus logo" width="60%"></span>
+        <span class="fragment">a few <br>others...</span>
+      </p>
+    </section>
+
+    <section>
+      <h2>CSS Pre- and Postprocessors</h2>
+
+      <div style="position: relative">
+
+        <div class="flex flex--center-center flex-wrap fragment" data-fragment-index="1">
+          <div style="font-size: .8em;">
+            Preprocessor files
+          </div>
+          <div>
+            <img src="img/sass-file.svg" width="60px" alt="">
+          </div>
+        </div>
+        <div class="flex flex--center-center flex-wrap fragment" data-fragment-index="2">
+          <div style="font-size: .6em;">
+            <span>compiling</span>
+          </div>
+          <div>
+            <img style="margin: 0;" src="img/arrow-down.svg" width="30px" alt="">
+          </div>
+        </div>
+
+        <div class="rubber_stamp fragment" data-fragment-index="6">PREprocessing</div>
+        <img src="img/sass-logo.svg" height="80px" alt="" style="position: absolute; right: 0; top: 50%;"
+             class="fragment fade-left" data-fragment-index="6">
+
+      </div>
+
+      <div style="position: relative">
+
+        <hr class="middle-dashed fragment fade-right" data-fragment-index="6">
+
+        <div class="flex flex--center-center flex-wrap fragment" data-fragment-index="3">
+          <div style="font-size: .8em;">
+            <span style="background-color: #222; padding: 0 35px;">
+              <i>Browser ready</i> CSS files
+            </span>
+          </div>
+          <div>
+            <span style="background-color: #222; padding: 0 35px; display: inline-block;">
+              <img src="img/css-file.svg" width="60px" alt="">
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="position: relative">
+
+        <div class="flex flex--center-center flex-wrap fragment" data-fragment-index="4">
+          <div style="font-size: .6em;">
+            <span>transforming</span>
+          </div>
+          <div>
+            <img style="margin: 0;" src="img/arrow-down.svg" width="30px" alt="">
+          </div>
+        </div>
+        <div class="flex flex--center-center flex-wrap fragment" data-fragment-index="5">
+          <div style="font-size: .8em;">
+            Transformed <i>browser ready</i> CSS files
+          </div>
+          <div>
+            <img src="img/css-file.svg" width="60px" alt="">
+          </div>
+        </div>
+
+
+        <div class="rubber_stamp fragment" data-fragment-index="6"
+             style="top: 0; color: #DD3A0A; border-color: #DD3A0A;">POSTprocessing
+        </div>
+        <img src="img/postcss-logo.svg" height="100px" alt="" style="position: absolute; right: 0; top: 0;"
+             class="fragment fade-left" data-fragment-index="6">
+
+
+      </div>
+
+    </section>
+
+    <section>
+      <h2>Ruby Sass and LibSass</h2>
+      <p class="fragment" data-fragment-index="1">
+        Two primary implementations of the Sass compiler:
+      </p>
+      <div class="flex flex--center-center">
+        <div style="color: #CC342D; font-size: 1.4em; margin: .8em;" class="fragment fade-right"
+             data-fragment-index="2">
+          Ruby
+        </div>
+        <div class="fragment fade-left" data-fragment-index="2" style="color: #97e947; font-size: 1.4em; margin: .8em;">
+          <span>C/C++ (LibSass)</span> <sup class="fragment" data-fragment-index="6">*</sup>
+        </div>
+      </div>
+
+      <ul>
+        <li class="fragment" data-fragment-index="3">They are both official</li>
+        <li class="fragment" data-fragment-index="4">The latest versions should be fully interoperable</li>
+        <li class="fragment" data-fragment-index="5">New features will be released in tandem</li>
+      </ul>
+      <br><br>
+      <p class="fragment text-left" data-fragment-index="6" style="font-size: .8em; display: flex">
+        <sup style="color: #97e947; margin-right: .3em;">*</sup><span><span style="color: #97e947">LibSass</span> has wrappers for Go,
+        Java, JavaScript, Lua, .Net, Node, Perl, PHP, Python, Scala, and even Ruby.</span>
+      </p>
+    </section>
+
+    <section>
+      <h2>
+        <img src="img/node-sass.svg" alt="node-sass logo" height="100px" class="middle">
+        <span class="middle">node-sass (LibSass)</span>
+      </h2>
+      <!--<h4 class="text-left">Installing node-sass</h4>-->
+      <ol style="font-size: 1em;">
+        <li class="fragment">Install Node.js (<a href="https://nodejs.org" target="_blank">nodejs.org</a>)</li>
+        <li class="fragment"><code>npm install node-sass</code>
+          (<a href="https://www.npmjs.com/package/node-sass" target="_blank">npmjs.com</a>)
+        </li>
+      </ol>
+      <br><br>
+
+      <!--<h4 class="text-left">Using Sass</h4>-->
+      <div style="font-size: 1em;">
+        <pre class="fragment"><code data-noescape class="bash">
+  node-sass input.scss output.css
+        </code></pre>
+        <pre class="fragment"><code data-noescape class="bash">
+  node-sass --watch input.scss output.css
+        </code></pre>
+        <pre class="fragment"><code data-noescape class="bash">
+  node-sass --watch sass/ --output stylesheets/
+        </code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>The Two Syntaxes of <b>Sass</b></h2>
+
+      <div class="fragment" data-fragment-index="1">
+        <div class="fragment shrink" data-fragment-index="3">
+          <p class="">.sass</p>
+          <pre style="width: 80%;"><code data-noescape class="scss" data-lang="SASS">
+  $font-stack:    Helvetica, sans-serif
+  $primary-color: #333
+
+  body
+    font: 100% $font-stack
+    color: $primary-color
+      </code></pre>
+        </div>
+      </div>
+
+      <div class="fragment" data-fragment-index="2">
+        <div class="fragment grow" data-fragment-index="3">
+          <p class="">.scss</p>
+          <pre style="width: 80%;"><code data-noescape class="scss">
+  $font-stack:    Helvetica, sans-serif;
+  $primary-color: #333;
+
+  body {
+    font: 100% $font-stack;
+    color: $primary-color;
+  }
+      </code></pre>
+        </div>
+      </div>
+
+    </section>
+
+
+    <!--
+    Variables
+    ========================================================= -->
+    <section data-background-color="#c6538c">
+      <h1>Variables</h1>
+    </section>
+
+    <section>
+      <h2>Data Types</h2>
+
+      <!--      <div class="fragment" style="font-size: .9em">
+            <pre><code data-noescape class="scss">
+        // Variable assignment
+        $my-variable: 42px;
+
+        // Variable usage
+        .foo {
+          width: $my-variable;
+        }
+            </code></pre>
+            </div>-->
+
+      <table class="data-types">
+        <tbody>
+        <tr class="fragment">
+          <td>
+            <span class="highlight">string</span>
+          </td>
+          <td>"Hello world" , kittens</td>
+          <!--<td>+, quote(), unquote()</td>-->
+        </tr>
+        <tr class="fragment">
+          <td>
+            <span class="highlight">number</span>
+          </td>
+          <td>42 , 1337px</td>
+          <!--<td>+, -, *, /, %</td>-->
+        </tr>
+        <tr class="fragment">
+          <td>
+            <span class="highlight">color</span>
+          </td>
+          <td>#CF649A , pink , rgb(1, 33, 7)</td>
+          <!--<td>darken(), lighten(), mix()</td>-->
+        </tr>
+        <tr class="fragment">
+          <td>
+            <span class="highlight">list</span>
+          </td>
+          <td>(a, b, c) , a b c</td>
+          <!--<td>length(), list-separator()</td>-->
+        </tr>
+        <tr class="fragment">
+          <td>
+            <span class="highlight">map</span>
+          </td>
+          <td>(a: 1, b: 2)</td>
+          <!--<td>map-get()</td>-->
+        </tr>
+        <tr class="fragment">
+          <td>
+            <span class="highlight">bool</span>
+          </td>
+          <td>true or false</td>
+          <!--<td>not</td>-->
+        </tr>
+        <tr class="fragment">
+          <td>
+            <span class="highlight">null</span>
+          </td>
+          <td>null</td>
+        </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Scope</h2>
+
+      <pre class="fragment" data-fragment-index="1"><code data-noescape class="scss">
+  <span class="fragment" data-fragment-index="2">$padding: 10px;</span>
+
+  .module {
+    $padding: 20px;
+    padding: $padding; // 20px
+  }
+<span class="fragment" data-fragment-index="2">
+  .foo {
+    padding: $padding; // 10px
+  }</span>
+      </code></pre>
+
+      <br>
+      <ul>
+        <li class="fragment" data-fragment-index="1">A variable defined in a mixin, function, or rule set is
+          <b>local</b></li>
+        <li class="fragment" data-fragment-index="2">A global and a local variable can share the <b>same name</b></li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Scope</h2>
+
+      <pre><code data-noescape class="scss">
+  $padding: 10px;
+
+  .module {
+    $padding: 20px !global;
+    padding: $padding; // 20px
+  }
+
+  .foo {
+    padding: $padding; // 20px
+  }
+      </code></pre>
+
+
+      <p>Use the <code><b>!global</b></code> flag to override a global variable</p>
+    </section>
+
+    <section>
+      <h2>Scope</h2>
+
+      <pre><code data-noescape class="scss">
+  $margin: 30px;
+
+
+  $margin: 40px !default;
+
+  .module {
+    margin: $margin; // 30px
+  }
+
+  .foo {
+    margin: $margin; // 30px
+  }
+      </code></pre>
+
+      <p>Use the <code><b>!default</b></code> flag to assign a variable if it doesn’t have a value yet</p>
+
+    </section>
+
+    <section>
+      <h2>Variable Interpolation: <code class="highlight">#{}</code></h2>
+      <pre class="fragment" data-fragment-index="1"><code data-noescape class="scss">
+  $name: 'world';
+
+  .foo:before { content: 'Hello ' + $name + '!'; /* Hello world! */}
+  <span class="fragment" data-fragment-index="2">.bar:before { content: 'Hello #{$name}!'; /* Hello world! */}</span>
+          </code></pre>
+
+      <div style="position: relative">
+        <pre class="fragment" data-fragment-index="3"><code data-noescape class="scss">
+  .main {
+    $sidebar-width: 300px;
+    width: calc(100% - $sidebar-width); <span class="fragment"
+                                              data-fragment-index="4">// calc(100% - $sidebar-width)</span>
+  }
+          </code></pre>
+        <div class="rubber_stamp fragment" data-fragment-index="5"
+             style="color: red; border-color: red; top: 30%; padding: .3em 2em; font-size: 1.1em;">FAIL
+        </div>
+      </div>
+
+      <pre class="fragment" data-fragment-index="6"><code data-noescape class="scss">
+  .main {
+    $sidebar-width: 300px;
+    width: calc(100% - #{$sidebar-width}); // calc(100% - 300px)
+  }
+          </code></pre>
+
+      <pre class="fragment" data-fragment-index="7"><code data-noescape class="scss">
+  $section: 'home';
+
+  .section-#{$section} {
+    background: transparent;
+  }
+          </code></pre>
+    </section>
+
+    <section>
+      <h2>Recap <b>Variables</b></h2>
+
+      <ul>
+        <li class="fragment">Variables are awesome as in other languages</li>
+        <li class="fragment">7 data types with different operators and built-in functions</li>
+        <li class="fragment">Think about scoping, <code>!global</code>, <code>!default</code></li>
+        <li class="fragment">Use interpolation to directly evaluate variables</li>
+      </ul>
+    </section>
+
+
+    <!--
+    Functions and Mixins
+    ========================================================= -->
+    <section data-background-color="#c6538c">
+      <h1>Functions and Mixins</h1>
+    </section>
+
+    <section>
+      <h2>Built-in Functions</h2>
+
+      <div style="font-size: .8em">
+
+        <p class="fragment">
+          <b>mix</b>($color1, $color2, [$weight]), <b>lighten</b>($color,
+          $amount), <b>darken</b>($color, $amount), <b>invert</b>($color), <b>transparentize</b>($color, $amount),
+          <b>quote</b>($string), <b>str-length</b>($string), <b>str-slice</b>($string,
+          $start-at, [$end-at]), <b>to-upper-case</b>($string),
+          <b>round</b>($number), <b>ceil</b>($number), <b>floor</b>($number), <b>random</b>([$limit]), <b>length</b>($list),
+          <b>nth</b>($list, $n), <b>append</b>($list1, $val, [$separator]), <b>index</b>($list, $value),
+          <b>map-get</b>($map, $key), <b>map-values</b>($map), <b>keywords</b>($args),
+          <b>selector-nest</b>($selectors…), <b>selector-parse</b>($selector), <b>type-of</b>($value),
+          <b>variable-exists</b>($name), <b>function-exists</b>($name), <b>unit</b>($number),
+          <b>call</b>($name, $args…), <b>unique-id</b>()<br>
+          and many more ...
+        </p>
+
+        <p class="fragment">
+          <a href="http://sass-lang.com/documentation/Sass/Script/Functions.html">... functions documentation</a>
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>Custom Functions</h2>
+      <pre class="fragment"><code data-noescape class="scss">
+  // `$a` is mandatory and `$b` is optional (default value being 2)
+  @function multiply($a, $b: 2) {
+    @return ($a * $b);
+  }
+      </code></pre>
+
+      <ul style="font-size: .9em">
+        <li class="fragment">A function must contain at least one <b>return statement</b></li>
+        <li class="fragment">Function <b>parameters</b> are optional</li>
+        <li class="fragment"><b>Optional</b> parameters must come <b>after non-optional</b> parameter</li>
+        <li class="fragment"><b>Scoping</b> is similar to variables</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Function Example: <b>Asset Management</b></h2>
+      <pre class="fragment"><code data-noescape class="scss" style="max-height: 800px;">
+  // CDN URL where all assets are served from
+  $base-url: 'http://cdn.example.com/assets/';
+
+  // Native `url(..)` function wrapper
+  @function <span class="fragment highlight-red">asset</span>($base, $type, $path) {
+    @return url($base + $type + $path);
+  }
+
+  // Returns URL to an image based on its path
+  @function <span class="fragment highlight-red">image</span>($path, $base: $base-url) {
+    @return <span class="fragment highlight-red">asset</span>($base, 'images/', $path);
+  }<!--
+
+  /// Returns URL to a font based on its path
+  @function <span class="fragment highlight-red">font</span>($path, $base: $base-url) {
+    @return <span class="fragment highlight-red">asset</span>($base, 'fonts/', $path);
+  }
+      --></code></pre>
+      <pre class="fragment"><code data-noescape class="scss" style="max-height: 800px;">
+  .foo {
+    background-image: <span class="fragment highlight-red">image</span>('kittens.png');
+  }
+      </code></pre>
+      <pre class="fragment"><code data-noescape class="css">
+  .foo {
+    background-image:
+      url('http://cdn.example.com/assets/images/kittens.png');
+  }
+      </code></pre>
+    </section>
+
+<!--    <section>
+      <h2>Function Example: <b>Asset Management</b></h2>
+      <pre class="fragment"><code data-noescape class="scss" style="max-height: 800px;">
+  .foo {
+    background-image: <span class="fragment highlight-red">image</span>('kittens.png');
+  }
+      </code></pre>
+      <pre class="fragment"><code data-noescape class="css">
+  .foo {
+    background-image:
+      url('http://cdn.example.com/assets/images/kittens.png');
+  }
+      </code></pre>
+    </section>-->
+
+<!--    <section>
+      <h2>Function Example: <b>Asset Management</b></h2>
+      <pre class="fragment" data-fragment-index="1"><code data-noescape class="scss">
+  @font-face {
+    font-family: 'My Awesome Font';
+    font-weight: normal;
+    font-style: normal;
+    src: <span class="fragment highlight-red" data-fragment-index="2">font</span>('my-awesome-font.eot?#iefix') format('embedded-opentype'),
+         <span class="fragment highlight-red" data-fragment-index="2">font</span>('my-awesome-font.woff') format('woff'),
+         <span class="fragment highlight-red" data-fragment-index="2">font</span>('my-awesome-font.woff2') format('woff2'),
+         <span class="fragment highlight-red" data-fragment-index="2">font</span>('my-awesome-font.ttf') format('truetype');
+  }
+      </code></pre>
+      <pre class="fragment" data-fragment-index="3"><code data-noescape class="css">
+  @font-face {
+    font-family: 'My Awesome Font';
+    font-weight: normal;
+    font-style: normal;
+    src:
+    url('http://cdn.example.com/assets/fonts/my-awesome-font.eot?#iefix')
+          format('embedded-opentype'),
+    url('http://cdn.example.com/assets/fonts/my-awesome-font.woff')
+          format('woff'),
+    url('http://cdn.example.com/assets/fonts/my-awesome-font.woff2')
+          format('woff2'),
+    url('http://cdn.example.com/assets/fonts/my-awesome-font.ttf')
+          format('truetype');
+  }
+      </code></pre>
+    </section>-->
+
+    <!--<section>
+      <h2>Function Example: <b><code>rem</code> calculation</b></h2>
+      <pre class="fragment"><code data-noescape class="scss" style="max-height: 800px;">
+  @function rem($value) {
+    @return $value / 16px * 1rem;
+  }
+  </code></pre>
+      <pre class="fragment"><code data-noescape class="scss" style="max-height: 800px;">
+  .foo {
+    width: rem(480px);
+    padding: rem(10px);
+  }
+      </code></pre>
+    </section>-->
+
+    <section>
+      <h2>Mixins</h2>
+      <p class="fragment">A <b>mixin</b> is a function that can output <br>code rather than return a result.</p>
+
+      <div style="font-size: .9em">
+
+        <div class="flex">
+          <div class="fragment" style="margin: 1em">
+            <b>Mixin</b> <br> abstract repeated style patterns
+          </div>
+          <div class="fragment" style="margin: 1em">
+            <b>Function</b> <br> abstract a repeated operation
+          </div>
+        </div>
+
+        <ul>
+          <li class="fragment">Ability to adapt the output based on parameters</li>
+          <li class="fragment">Can not be defined inside a function or another mixin</li>
+          <li class="fragment">When mixins have no parameters, the parentheses are optional</li>
+        </ul>
+
+      </div>
+    </section>
+
+    <section>
+      <h2>Mixins</h2>
+      <pre class="fragment"><code data-noescape class="scss" style="max-height: 800px;">
+  /// Sizing mixin from width and height
+  /// If height is omitted, same as width
+  @mixin size($width, $height: $width) {
+    width: $width;
+    height: $height;
+  }
+<span class="fragment">
+  // Usage
+  .foo {
+    @include size(100%, 42px);
+  }
+
+  .bar {
+    @include size(100px);
+  }</span>
+      </code></pre>
+      <pre class="fragment"><code data-noescape class="css">
+  .foo {
+    width: 100%;
+    height: 42px;
+  }
+
+  .bar {
+    width: 100px;
+    height: 100px;
+  }
+      </code></pre>
+    </section>
+
+    <section>
+      <h2><code class="highlight">@content</code> directive</h2>
+      <pre class="fragment"><code data-noescape class="scss" style="max-height: 800px;">
+  @mixin size($width, $height: $width) {
+    width: $width;
+    height: $height;
+    <span class="fragment">@content;</span>
+  }
+<span class="fragment">
+  .foo {
+    @include size(100%, 42px) {
+      font-size: 2rem;
+    }
+  }</span>
+      </code></pre>
+      <pre class="fragment"><code data-noescape class="css">
+  .foo {
+    width: 100%;
+    height: 42px;
+    font-size: 2rem;
+  }
+      </code></pre>
+    </section>
+
+    <!--    <section>
+          <h2><code class="highlight">@content</code> directive</h2>
+
+          <pre class="fragment" data-fragment-index="1"><code data-noescape class="scss" style="max-height: 800px;">
+      @mixin on-event {
+        <span class="fragment highlight-red" data-fragment-index="4">&</span>:hover, <span class="fragment highlight-red"
+                                                                                           data-fragment-index="4">&</span>:active, <span
+              class="fragment highlight-red" data-fragment-index="4">&</span>:focus {
+          @content;
+        }
+      }
+    <span class="fragment" data-fragment-index="2">
+      .foo {
+        color: blue;
+        @include on-event {
+          color: red;
+        }
+      }
+    </span>
+          </code></pre>
+          <pre class="fragment" data-fragment-index="3"><code data-noescape class="css">
+      .foo {
+        color: blue;
+      }
+      .foo:hover, .foo:active, .foo:focus {
+        color: red;
+      }
+          </code></pre>
+
+          <p class="fragment" data-fragment-index="4">
+            Stay tuned for the <b>parent selector reference</b> (<span style="color: #ff2c2d">&</span>).
+          </p>
+        </section>-->
+
+    <section>
+      <h2>Recap <b>Functions and Mixins</b></h2>
+
+      <ul>
+        <li class="fragment">There are a lot of built-in functions to help out</li>
+        <li class="fragment">Custom functions are a powerful tool to abstract repeated operations</li>
+        <li class="fragment">Mixins are great to abstract repeated style patterns</li>
+        <li class="fragment">Use <code>@content</code> to pass styles to a mixin</li>
+      </ul>
+    </section>
+
+
+    <!--
+    Loops and Conditions
+    ========================================================= -->
+    <section data-background-color="#c6538c">
+      <h1>Loops and Conditions</h1>
+    </section>
+
+    <section>
+      <h2>Conditions</h2>
+
+      <pre class="fragment"><code data-noescape class="scss">
+  @if $condition {
+    // Then do something
+  } <span class="fragment">@else {
+    // Do something else
+  }</span>
+      </code></pre>
+
+      <div class="flex">
+        <div class="fragment">
+          Multiple Conditions
+          <pre><code data-noescape class="scss">
+  @if $condition-a {
+    // Then do something
+
+  } @else if $condition-b {
+    // Then do something else
+
+  } @else {
+    // Do something else
+
+  }
+          </code></pre>
+        </div>
+        <div class="fragment">
+          Conditional Operators
+          <pre><code data-noescape class="scss">
+  $foo: true;
+  $bar: false;
+
+  @if $foo and $bar {
+    // Statement doesn't match
+  }
+
+  @if $foo or $bar {
+    // Statement does match
+  }
+          </code></pre>
+        </div>
+      </div>
+      <div class="fragment">
+        Ternary Function (foo = error ? red : green)
+        <pre><code data-noescape class="scss">
+  $foo: if($error, red, green);
+        </code></pre>
+      </div>
+
+    </section>
+
+    <section>
+      <h2>The for-loop</h2>
+
+      <pre class="fragment" data-fragment-index="1"><code data-noescape class="scss">
+  <span class="fragment" data-fragment-index="1">@for</span><span class="fragment"
+                                                                  data-fragment-index="2"> $i</span><span
+          class="fragment" data-fragment-index="3"> from</span><span class="fragment"
+                                                                     data-fragment-index="4"> 1</span><span
+          class="fragment" data-fragment-index="5"> through</span><span class="fragment"
+                                                                        data-fragment-index="6"> 5</span><span
+          class="fragment" data-fragment-index="7"> {
+    // Code to execute 5 times, where `$i` equals: 1, 2, 3, 4, 5
+  }</span>
+      </code></pre>
+      <ol style="font-size: .8em">
+        <li class="fragment" data-fragment-index="1">The <code class="highlight">@for</code> directive</li>
+        <li class="fragment" data-fragment-index="2">The name of the index variable</li>
+        <li class="fragment" data-fragment-index="3">The keyword <code class="highlight">from</code></li>
+        <li class="fragment" data-fragment-index="4">The start index (a number, a variable, or a function call)</li>
+        <li class="fragment" data-fragment-index="5">Either the keyword <code class="highlight">through</code> (end
+          index inclusive) or the keyword <code class="highlight">to</code> (end index exclusive)
+        </li>
+        <li class="fragment" data-fragment-index="6">The end index (a number, a variable, or a function call)</li>
+      </ol>
+      <pre class="fragment" data-fragment-index="8"><code data-noescape class="scss">
+  $start: 2;
+  $list: (20em, 17em, 15em, 12em);
+
+  @for $index from $start to length($list) {
+   // Code to execute 2 times, where `$index` equals: 2, 3
+  }
+      </code></pre>
+    </section>
+
+    <section>
+      <h2>The each-loop</h2>
+
+      <pre class="fragment" data-fragment-index="1"><code data-noescape class="scss">
+  <span class="fragment" data-fragment-index="4">$collection: (a b c d e f g);</span>
+
+  <span class="fragment" data-fragment-index="1">@each</span><span class="fragment"
+                                                                   data-fragment-index="2"> $item</span><span
+          class="fragment" data-fragment-index="3"> in</span><span class="fragment"
+                                                                   data-fragment-index="4"> $collection</span><span
+          class="fragment" data-fragment-index="5"> {
+    // Do something with `$item`
+  }</span>
+      </code></pre>
+      <ol>
+        <li class="fragment" data-fragment-index="1">The <code class="highlight">@each</code> directive</li>
+        <li class="fragment" data-fragment-index="2">The name of the item variable(s)</li>
+        <li class="fragment" data-fragment-index="3">The keyword <code class="highlight">in</code></li>
+        <li class="fragment" data-fragment-index="4">The collection to iterate over</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>The each-loop</h2>
+
+      <pre><code data-noescape class="scss">
+
+  $preprocessors: (sass, #C6538C),
+                  (less, #1D365D),
+                  (stylus, #333333);
+
+  @each $preprocessor, $color in $preprocessors {
+
+    .preprocessor-#{$preprocessor} {
+      color: $color;
+    }
+
+  }
+
+      </code></pre>
+    </section>
+
+    <section>
+      <h2>The while-loop</h2>
+      <pre><code data-noescape class="scss">
+  $number: 4;
+
+  @while ($number > 0) {
+    // Do something with `$number`
+
+    $number: $number - 1;
+  }
+      </code></pre>
+
+      <ol>
+        <li>The <code class="highlight">@while</code> directive</li>
+        <li>The matching condition for the loop to keep going</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Recap <b>Loops and Conditions</b></h2>
+
+      <ul>
+        <li class="fragment">Conditional statements are used to execute a block of code based on a condition</li>
+        <li class="fragment">
+          Loops are used to repeat a block of code
+          <ul>
+            <li class="fragment">a certain number of times</li>
+            <li class="fragment">or to iterate over a collection such as a list or a map</li>
+          </ul>
+        </li>
+      </ul>
+    </section>
+
+
+    <!--
+    Nesting
+    ========================================================= -->
+    <section data-background-color="#c6538c">
+      <h1>Nesting</h1>
+    </section>
+
+    <section>
+      <h2>Selector Nesting</h2>
+      <pre class="fragment"><code data-noescape class="css">
+  .container {
+    margin: 0 auto;
+    max-width: 42em;
+    padding: 0 1em;
+  }
+
+  .container p,
+  .container li {
+    text-indent: 1em;
+  }
+      </code></pre>
+      <pre class="fragment"><code data-noescape class="scss">
+  .container {
+    margin: 0 auto;
+    max-width: 42em;
+    padding: 0 1em;
+
+    p, li {
+      text-indent: 1em;
+    }
+  }
+      </code></pre>
+    </section>
+
+    <section>
+      <h2>Parent Selector Reference: <code class="highlight">&</code></h2>
+
+      <div class="flex">
+        <div class="fragment" data-fragment-index="1">
+          <pre><code data-noescape class="scss">
+  .foo {
+    margin: 1em;
+
+    .bar { margin: 0 auto; }
+  }
+          </code></pre>
+        </div>
+        <div class="fragment" data-fragment-index="2">
+          <pre><code data-noescape class="css">
+  .foo { margin: 1em; }
+
+  .foo .bar {
+    margin: 0 auto;
+  }
+          </code></pre>
+        </div>
+      </div>
+
+      <div class="flex">
+        <div class="fragment" data-fragment-index="4">
+          <pre><code data-noescape class="scss">
+  .foo {
+    margin: 1em;
+
+    <span class="highlight">&</span>.bar { margin: 0 auto; }
+  }
+          </code></pre>
+        </div>
+        <div class="fragment" data-fragment-index="3">
+          <pre><code data-noescape class="css">
+  .foo { margin: 1em; }
+
+  .foo.bar {
+    margin: 0 auto;
+  }
+          </code></pre>
+        </div>
+      </div>
+
+      <pre class="fragment"><code data-noescape class="scss">
+  a {
+    color: deeppink;
+
+    <span class="highlight">&</span>:hover { color: hotpink; }
+    <span class="highlight">&</span>:before { content: '42 '; }
+  }
+      </code></pre>
+
+    </section>
+
+    <section>
+      <h2>Context Nesting</h2>
+
+      <pre class="fragment"><code data-noescape class="css">
+  .navigation li {
+    display: block;
+  }
+
+  @media screen and (min-width: 42em) {
+    .navigation li {
+      display: inline-block;
+    }
+  }
+      </code></pre>
+
+      <pre class="fragment"><code data-noescape class="scss">
+  .navigation li {
+    display: block;
+
+    @media screen and (min-width: 42em) {
+      display: inline-block;
+    }
+  }
+      </code></pre>
+
+      <pre class="fragment"><code data-noescape class="scss">
+  .navigation {
+    display: block;
+
+    @supports (display: flex) {
+        display: flex;
+    }
+  }
+      </code></pre>
+
+
+    </section>
+
+    <section>
+      <h2>Recap <b>Nesting</b></h2>
+      <ul>
+        <li class="fragment">Nesting is a powerful feature that should not be abused</li>
+        <li class="fragment">It could potentially harm readability and maintainability</li>
+        <li class="fragment">Try to avoid using unnecessary nesting, keep it mostly for pseudo-classes, pseudo-elements,
+          and contexts (<code>@media</code> and <code>@supports</code>)
+        </li>
+      </ul>
+    </section>
+
+
+    <!--
+    The @extend Directive
+    ========================================================= -->
+    <section data-background-color="#c6538c">
+      <h1>The <code>@extend</code> Directive</h1>
+    </section>
+
+    <section>
+      <h2><code class="">@extend</code></h2>
+      <p>
+        <code>@extend</code> is the most powerful, <span style="color: #ff2c2d">dangerous</span> and <br>
+        controversial feature in Sass.
+      </p>
+
+      <div class="flex">
+        <div class="fragment" data-fragment-index="1">
+          <pre><code data-noescape class="scss" style="max-height: 800px;">
+  .message {
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: #333;
+  }
+
+  .success {
+    @extend .message;
+    border-color: green;
+  }
+
+  .error {
+    @extend .message;
+    border-color: red;
+  }
+          </code></pre>
+        </div>
+        <div class="fragment" data-fragment-index="2">
+          <pre><code data-noescape class="css">
+  .message, .success, .error {
+    border: 1px solid #cccccc;
+    padding: 10px;
+    color: #333;
+  }
+
+  .success {
+    border-color: green;
+  }
+
+  .error {
+    border-color: red;
+  }
+          </code></pre>
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <h2>The Placeholder Selector: <span class="highlight">%</span></h2>
+
+      <div class="flex">
+        <div class="fragment" data-fragment-index="1">
+          <pre><code data-noescape class="scss" style="max-height: 800px;">
+  %message {
+    border: 1px solid #ccc;
+    padding: 10px;
+    color: #333;
+  }
+
+  .success {
+    @extend %message;
+    border-color: green;
+  }
+
+  .error {
+    @extend %message;
+    border-color: red;
+  }
+          </code></pre>
+        </div>
+        <div class="fragment" data-fragment-index="2">
+          <pre><code data-noescape class="css">
+  .success, .error {
+    border: 1px solid #cccccc;
+    padding: 10px;
+    color: #333;
+  }
+
+  .success {
+    border-color: green;
+  }
+
+  .error {
+    border-color: red;
+  }
+          </code></pre>
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <h2>Advanced Extending</h2>
+
+      <div style="position: relative">
+        <div class="flex">
+          <div class="fragment" data-fragment-index="1">
+          <pre><code data-noescape class="scss" style="max-height: 800px;">
+  .hoverlink {
+    @extend a:hover;
+  }
+
+  a {
+    &[href*='http://'] {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+          </code></pre>
+          </div>
+          <div class="fragment" data-fragment-index="2">
+          <pre><code data-noescape class="css">
+  a[href*='http://']:hover,
+  [href*='http://'].hoverlink {
+    text-decoration: underline;
+  }
+          </code></pre>
+          </div>
+        </div>
+
+        <div class="rubber_stamp fragment"
+             style="color: red; border-color: red; top: 40%; padding: .3em 2em; font-size: 1.1em; line-height: 1.2;">
+          Maintainable?
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <h2>The <span class="highlight">Limits</span> of Extending</h2>
+      <p>Don’t try this at home!</p>
+
+      <p class="text-left fragment">Specificity</p>
+      <div class="fragment">
+          <pre><code data-noescape class="scss">
+  %large     { font-size: 4rem; }
+  %small     { font-size: 0.75rem; }
+  .message   { @extend %small; }
+  .important { @extend %large; }
+          </code></pre>
+      </div>
+      <div class="fragment">
+          <pre><code data-noescape class="css">
+  .important { font-size: 4rem; }
+  .message   { font-size: 0.75rem; }
+          </code></pre>
+      </div>
+
+      <div class="fragment">
+        <p class="text-left">Media Query Madness</p>
+        <p class="text-left" style="font-size: .8em">
+          <code>@extend</code> fails to work at all across media queries. Selectors inside one media query cannot extend
+          selectors outside that same query (and vice versa).
+        </p>
+      </div>
+
+    </section>
+
+    <section>
+      <h2>The <span class="highlight">Limits</span> of Extending</h2>
+      <p>Don’t try this at home!</p>
+
+      <p class="text-left fragment">Hard-to-Read Output</p>
+      <div class="fragment">
+          <pre><code data-noescape class="scss">
+  .typography {
+    .bold { font-weight: bold; }
+  }
+
+  .widget-warning strong  { @extend .bold; }
+  .widget-info strong     { @extend .bold; }
+  .alert-error .important { @extend .bold; }
+          </code></pre>
+      </div>
+      <div class="fragment">
+          <pre><code data-noescape class="css">
+  .typography .bold,
+  .typography .widget-warning strong,
+  .widget-warning .typography strong,
+  .typography .widget-info strong,
+  .widget-info .typography strong,
+  .typography .alert-error .important,
+  .alert-error .typography .important {
+    font-weight: bold;
+  }
+          </code></pre>
+      </div>
+    </section>
+
+    <section>
+      <h2>Recap <b><code>@extend</code></b></h2>
+      <p class="fragment">"<i>With great power comes great responsibility</i>"</p>
+      <ul>
+        <li class="fragment">
+          Try to use <code>@extend</code> just in an encapsulated environment
+          <ul>
+            <li class="fragment">extend a specific selector only in a specific component</li>
+            <li class="fragment">or at least do not extend the same selector in multiple sass files</li>
+          </ul>
+        </li>
+        <li class="fragment">Use placeholder whenever possible</li>
+        <li class="fragment">If you do not have a good reason to use <code>@extend</code>, use a mixin, it will do the
+          job
+        </li>
+
+      </ul>
+    </section>
+
+
+    <!--
+    Imports and Partials
+    ========================================================= -->
+    <section data-background-color="#c6538c">
+      <h1>Multiple Files and Folders</h1>
+    </section>
+
+    <section>
+      <h2>Imports and Partials</h2>
+      <div class="flex">
+        <div class="fragment">
+          <pre style="box-shadow: none;">
+  sass/
+  |
+  |– config/
+  |    |– _colors.scss
+  |    …
+  |
+  |– layout/
+  |    |– _navigation.scss
+  |    …
+  |
+  |– modules/
+  |    |– _calendar.scss
+  |    |– _contact.scss
+  |    …
+  |
+  |– patterns/
+  |    |– _buttons.scss
+  |    …
+  |
+  |- main.scss
+          </pre>
+        </div>
+        <div class="fragment">
+          <pre><code data-noescape class="scss">
+  // main.scss
+
+  @import 'config/_colors.scss';
+
+  @import 'patterns/_buttons';
+
+  @import 'layout/navigation';
+
+  @import 'modules/calendar',
+          'modules/contact';
+          </code></pre>
+        </div>
+      </div>
+    </section>
+
+
+    <!--
+    Modern Front-end
+    =========================================================
+    =========================================================
+    ========================================================= -->
+
+    <!--
+    SMACSS
+    ========================================================= -->
+    <section data-background-color="#2a4f84">
+      <h1>SMACSS</h1>
+      <p>Scalable and Modular Architecture for CSS</p>
+    </section>
+
+    <section>
+      <h2>SMACSS</h2>
+
+      <p class="text-left fragment">
+        SMACSS uses five categories for organizing CSS:
+      </p>
+      <ol style="font-size: .9em">
+        <li class="fragment"><b>Base</b> rules define the default style of elements</li>
+        <li class="fragment"><b>Layout</b> styles are used to break the document into sections</li>
+        <li class="fragment"><b>Modules</b> are the individual components of a design</li>
+        <li class="fragment"><b>State</b> rules define different JavaScript-dependent states</li>
+        <li class="fragment"><b>Themes</b> to describe multiple style options for the same modules</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>SMACSS</h2>
+      <h4>Naming Rules</h4>
+      <p class="text-left fragment">Use a prefix to differentiate between Layout, State, and Module rules.</p>
+
+      <ul style="font-size: .9em">
+        <li class="fragment">
+          For layout selectors use <code class="highlight">l-</code> or <code class="highlight">layout-</code>
+        </li>
+        <li class="fragment">
+          <code class="highlight">is-</code> as in <code class="highlight">is-hidden</code> or
+          <code class="highlight">is-collapsed</code> for state rules
+        </li>
+        <li class="fragment">
+          A prefix like <code class="highlight">module-</code> for every module would be needlessly verbose, so no
+          prefixes for modules
+        </li>
+      </ul>
+    </section>
+
+
+    <!--
+    Atomic Design
+    ========================================================= -->
+    <section data-background-color="#2a4f84">
+      <h1>Atomic Design</h1>
+    </section>
+
+    <section>
+      <h2>Atomic Design</h2>
+      <img src="img/atomic-design-1.png" alt="">
+      <div class="source">Source: http://atomicdesign.bradfrost.com/chapter-2/</div>
+    </section>
+
+    <section>
+      <h2>Atomic Design</h2>
+      <img src="img/atomic-design-2.png" alt="">
+      <div class="source">Source: http://atomicdesign.bradfrost.com/chapter-2/</div>
+    </section>
+
+    <section>
+      <h2>Atomic Design</h2>
+      <img src="img/atomic-design-3.png" alt="">
+      <div class="source">Source: http://atomicdesign.bradfrost.com/chapter-2/</div>
+    </section>
+
+
+    <!--
+    OOCSS
+    ========================================================= -->
+    <section data-background-color="#2a4f84">
+      <h1>OOCSS</h1>
+      <p>Object Oriented CSS</p>
+    </section>
+
+    <section>
+      <h2>OOCSS</h2>
+      <ul>
+        <li class="fragment">
+          Separate structure and skin
+          <div style="font-size: .7em; margin-top: .5em">
+            Define repeating visuals (backgrounds, border styles, etc.) as <b>separate “skins”</b> that
+            you can mix-and-match with various objects to achieve a large amount of visual variety. By styling
+            classes (<code>.primary-header</code>) instead of tags (<code>h1</code>), you have more flexibility.
+          </div>
+        </li>
+        <li style="margin-top: 1.2em" class="fragment">
+          Separate container and content
+          <div style="font-size: .7em; margin-top: .5em">
+            OOCSS objects should not be dependent on their location or context, but be reusable and able to fill
+            whatever container they are given. This ensures that an object <b>will look the same in any context</b>,
+            without developers having to guess what a given element or class will do in different situations.
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>OOCSS</h2>
+      <h3>Media Object (Facebook)</h3>
+      <img src="img/oocss.png" alt="" width="650">
+      <div class="source">Source: https://www.sitepoint.com/architecture-in-sass/</div>
+    </section>
+
+
+    <!--
+    ITCSS
+    ========================================================= -->
+    <section data-background-color="#2a4f84">
+      <h1>ITCSS</h1>
+      <p>Inverted Triangle CSS</p>
+    </section>
+
+    <section>
+      <h2>ITCSS</h2>
+      <div style="position: relative">
+        <p>CSS Specificity</p>
+        <div class="fragment">
+          <img src="img/itcss-02.png" alt="">
+          <div class="source">Source: https://css-tricks.com/specifics-on-css-specificity/</div>
+        </div>
+        <div class="rubber_stamp fragment"
+             style="color: red; border-color: red; top: 35%; padding: .5em; font-size: 1em; line-height: 1.2; background-color: #fff">
+          !important<br>
+          trumps them all
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ITCSS</h2>
+      <img src="img/itcss-1.png" alt="">
+      <div class="source">Source: http://csswizardry.net/talks/2014/11/itcss-dafed.pdf</div>
+    </section>
+
+    <section>
+      <h2>ITCSS</h2>
+      <img src="img/itcss-2.png" alt="">
+      <div class="source">Source: http://csswizardry.net/talks/2014/11/itcss-dafed.pdf</div>
+    </section>
+
+    <section>
+      <h2>ITCSS</h2>
+      <img src="img/itcss-3.png" alt="">
+      <div class="source">Source: http://csswizardry.net/talks/2014/11/itcss-dafed.pdf</div>
+    </section>
+
+    <section>
+      <h2>ITCSS</h2>
+      <img src="img/itcss-4.png" alt="">
+      <div class="source">Source: http://csswizardry.net/talks/2014/11/itcss-dafed.pdf</div>
+    </section>
+
+    <section>
+      <h2>ITCSS</h2>
+      <img src="img/itcss-5.png" alt="">
+      <div class="source">Source: http://csswizardry.net/talks/2014/11/itcss-dafed.pdf</div>
+    </section>
+
+
+    <!--
+    BEM
+    ========================================================= -->
+    <section data-background-color="#2a4f84">
+      <h1>BEM</h1>
+      <p>Block, Element, Modifier</p>
+    </section>
+
+    <section>
+      <h2>BEM</h2>
+      <h3 class="text-left"><b>Blocks</b></h3>
+
+      <div style="font-size: .9em;" class="text-left">
+        <p>
+          Blocks are components of any size, and can be nested inside each other. Blocks are reusable and
+          independent.
+        </p>
+        <p>
+          Block class names may consist of letters, digits and dashes.
+        </p>
+      </div>
+
+      <pre class="fragment"><code class="html">
+  <div class="block">
+    ...
+  </div>
+      </code></pre>
+
+      <pre class="fragment"><code data-noescape class="scss">
+  .block {
+    color: hotpink;
+  }
+      </code></pre>
+    </section>
+
+    <section>
+      <h2>BEM</h2>
+      <h3 class="text-left"><b>Elements</b></h3>
+
+      <div style="font-size: .9em;" class="text-left">
+        <p>
+          Elements are the constituent parts that belong to a specific block.
+        </p>
+        <p>
+          Element classes are formed as <b>block name</b> plus two underscores <span
+            style="white-space:nowrap">(<b>__</b>)</span> plus <b>element name</b>.
+        </p>
+      </div>
+
+      <pre class="fragment"><code class="html">
+  <div class="block">
+    ...
+    <span class="block__elem">...</span>
+    ...
+  </div>
+      </code></pre>
+
+      <div class="flex">
+        <div class="fragment">
+          <pre><code data-noescape class="css">
+  .block {
+    color: hotpink;
+  }
+
+  .block__elem {
+    color: deeppink;
+  }
+          </code></pre>
+        </div>
+        <div class="fragment">
+          <pre><code data-noescape class="scss">
+  .block {
+    color: hotpink;
+
+    &__elem {
+      color: deeppink;
+    }
+  }
+          </code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>BEM</h2>
+      <h3 class="text-left"><b>Modifiers</b></h3>
+
+      <div style="font-size: .9em;" class="text-left">
+        <p>
+          Modifiers are flags on blocks or elements that change their appearance, behavior or state.
+        </p>
+        <p>
+          Modifier class names are formed as <b>block name</b> plus two dashes <span
+            style="white-space:nowrap">(<b>--</b>)</span> plus <b>modifier name</b> or element name plus two dashes plus
+          modifier name.
+        </p>
+      </div>
+    </section>
+
+    <section>
+      <h2>BEM</h2>
+      <h3 class="text-left"><b>Modifiers</b></h3>
+
+      <pre class="fragment"><code class="html">
+  <div class="block block--mod">
+    ...
+    <span class="block__foo block__foo--mod">...</span>
+    <span class="block__bar">...</span>
+    ...
+  </div>
+      </code></pre>
+
+      <div class="flex">
+        <div class="fragment">
+          <pre><code data-noescape class="css">
+  .block { ... }
+
+  .block--mod { ... }
+
+  .block__foo { ... }
+
+  .block__foo--mod { ... }
+
+  .block__bar { ... }
+
+  .block--mod .block__bar { ... }
+
+          </code></pre>
+        </div>
+        <div class="fragment">
+          <pre style="max-height: 800px;"><code data-noescape class="scss">
+  .block { ...
+
+    &--mod { ... }
+
+    &__foo { ...
+
+      &--mod { ... }
+    }
+
+    &__bar { ... }
+
+    &--mod &__bar { ... }
+  }
+          </code></pre>
+        </div>
+      </div>
+    </section>
+
+    <!--
+    Recap Recap Front-end Development Methodologies
+    ========================================================= -->
+    <section data-background-color="#2a4f84">
+      <h1>Recap Front-end Development Methodologies</h1>
+    </section>
+
+    <section>
+      <h2>What do the methodologies have in common?</h2>
+      <br>
+      <div class="flex">
+        <div>
+          <ul>
+            <li class="fragment">Categorise styles</li>
+            <li class="fragment">Component based</li>
+            <li class="fragment">Context independent</li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li class="fragment">Naming conventions</li>
+            <li class="fragment">Specificity</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Code Quality</h2>
+      <br>
+      <div class="flex">
+        <div>
+          <ul>
+            <li class="fragment">Correctness</li>
+            <li class="fragment">Reusability</li>
+            <li class="fragment">Reliability</li>
+          </ul>
+        </div>
+        <div>
+          <ul>
+            <li class="fragment">Performance</li>
+            <li class="fragment">Testability</li>
+            <li class="fragment">...</li>
+          </ul>
+        </div>
+      </div>
+
+    </section>
+
+    <section>
+      <h2>Optimise for</h2>
+      <h1 style="color: #ff2c2d">Change</h1>
+    </section>
+
+    <section>
+      <div class="text-left" style="font-style: italic">
+        "The definition of maintainability is: How easy is it to safely make changes to the code? There isn't really
+        anything I care more about than maintainability. Seriously! Even above and beyond correctness."
+        <div style="text-align: right; font-style: normal">– Andy Hume</div>
+      </div>
+    </section>
+
+    <section data-transition="zoom" data-transition-speed="slow">
+      <img src="img/fist.svg" alt="">
+      <h1>Maintainability First!</h1>
+    </section>
+
+    <!--
+    Thanks
+    =========================================================
+    =========================================================
+    ========================================================= -->
+    <section>
+      <h1 class="text-left">Thanks!</h1>
+      <!--<p class="text-left">Slides: <a href="http://bit.ly/2caVWKj" target="_blank">http://bit.ly/2caVWKj</a></p>-->
+    </section>
+
+
+    <!--
+    Sources
+    =========================================================
+    =========================================================
+    ========================================================= -->
+    <section>
+      <h1>Sources</h1>
+    </section>
+
+    <section>
+      <h2>Sources</h2>
+      <a href="https://www.sitepoint.com/introducing-our-newest-book-jump-start-sass/">
+        <img src="img/jump-start-sass.jpg" alt="" style="width: 40%; height: auto;">
+      </a>
+    </section>
+
+    <section>
+      <h2>Sources</h2>
+
+      <ul style="font-size: .6em" class="text-left">
+        <li><a href="https://www.sitepoint.com/introducing-our-newest-book-jump-start-sass/">https://www.sitepoint.com/introducing-our-newest-book-jump-start-sass</a>
+        </li>
+        <li><a href="https://abookapart.com/products/sass-for-web-designers">https://abookapart.com/products/sass-for-web-designers</a>
+        </li>
+        <li><a href="http://sass-lang.com/">http://sass-lang.com</a>
+        </li>
+        <li><a href="http://thesassway.com/">http://thesassway.com</a>
+        </li>
+        <li><a href="https://smacss.com/">https://smacss.com</a></li>
+        <li><a href="http://bradfrost.com/blog/post/atomic-web-design/">http://bradfrost.com/blog/post/atomic-web-design</a>
+        </li>
+        <li><a href="http://atomicdesign.bradfrost.com/chapter-2/">http://atomicdesign.bradfrost.com/chapter-2</a>
+        </li>
+        <li><a href="https://github.com/stubbornella/oocss/wiki">https://github.com/stubbornella/oocss/wiki</a></li>
+        <li><a href="https://www.sitepoint.com/architecture-in-sass/">https://www.sitepoint.com/architecture-in-sass</a></li>
+        <li><a href="http://csswizardry.net/talks/2014/11/itcss-dafed.pdf">http://csswizardry.net/talks/2014/11/itcss-dafed.pdf</a>
+        </li>
+        <li><a href="https://css-tricks.com/specifics-on-css-specificity/">https://css-tricks.com/specifics-on-css-specificity</a>
+        </li>
+        <li><a href="https://en.bem.info/">https://en.bem.info</a>
+        <li><a href="http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax/">http://csswizardry.com/2013/01/mindbemding-getting-your-head-round-bem-syntax</a>
+        </li>
+      </ul>
+
+    </section>
+
+
+    <!--
+    Sass Challenges
+    =========================================================
+    =========================================================
+    ========================================================= -->
+    <section>
+      <h1 class="highlight">
+        Sass Challenges<br>
+        <a href="http://bit.ly/2cputUG" target="_blank" style="text-transform: none;">http://bit.ly/2cputUG</a>
+      </h1>
+    </section>
+
+  </div>
+</div>
+
+<script src="lib/js/head.min.js"></script>
+<script src="js/reveal.js"></script>
+
+<script>
+  // More info https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    width: 960,
+    height: 960,
+    backgroundTransition: 'fade', // none/fade/slide/convex/concave/zoom
+    transition: 'none', // none/fade/slide/convex/concave/zoom
+    transitionSpeed: 'fast', // default/fast/slow
+    controls: false,
+    progress: false,
+    history: true,
+
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [
+      {src: 'plugin/markdown/marked.js'},
+      {src: 'plugin/markdown/markdown.js'},
+      {src: 'plugin/notes/notes.js', async: true},
+      {
+        src: 'plugin/highlight/highlight.js', async: true, callback: function () {
+        hljs.initHighlightingOnLoad();
+      }
+      }
+    ]
+  });
+</script>
+</body>
+</html>

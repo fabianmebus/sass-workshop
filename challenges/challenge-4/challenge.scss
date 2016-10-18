@@ -1,0 +1,17 @@
+//
+// Challenge description:
+//
+// Use a `@for` loop to generate the type selectors h1 to h6 inside the
+// .my-headings selector. The h6 should get a font size of $base-font-size
+// and the variable $heading-scale sets the amount of px the headings grow
+// from h6 to h1.
+// So if the $base-font-size is 15px and the $heading-scale is 3 the h5
+// should be 18px, the h4 21px etc.
+// ============================================================================
+
+.my-headings {
+
+  $base-font-size: 15px;
+  $heading-scale: 3;
+
+}

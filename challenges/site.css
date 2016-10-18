@@ -1,0 +1,17 @@
+html {
+    background: rgb(34, 34, 34);
+    color: rgb(255, 255, 255);
+    font-family: sans-serif;
+}
+
+body {
+    margin: 3em auto;
+    padding: 0 10%;
+    max-width: 55em;
+}
+
+a {
+    color: rgb(66, 175, 250);
+    text-decoration: none;
+    line-height: 1.5;
+}

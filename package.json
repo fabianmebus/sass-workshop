@@ -1,0 +1,20 @@
+{
+  "name": "sass-workshop",
+  "version": "v1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fabianmebus/sass-workshop.git"
+  },
+  "scripts": {
+    "start": "gulp develop"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.12.10",
+    "bs-html-injector": "^3.0.1",
+    "del": "^2.2.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-sass": "^2.3.1",
+    "run-sequence": "^1.2.1"
+  }
+}

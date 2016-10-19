@@ -8,16 +8,19 @@
 // Don't change the mixin include.
 // ============================================================================
 
+@mixin my-media {
+  @debug 'My message!';
+  @media (min-width: 800px) {
+    @content;
+  }
+}
+
 .my-paragraph {
   font-size: 14px;
   color: darkorange;
-
-  /*
 
   @include my-media {
     font-size: 18px;
     color: white;
   }
-
-  */
 }

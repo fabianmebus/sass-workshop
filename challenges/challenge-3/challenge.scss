@@ -14,6 +14,21 @@
 // font size of 16px for the calculation.
 // ============================================================================
 
-.my-paragraph {
+@function calc-rem($pixel-size) {
+  @return $pixel-size / 16px * 1rem;
+}
 
+@mixin font-size($pixel-size) {
+  font-size: $pixel-size;
+  font-size: calc-rem($pixel-size);
+
+  @if $pixel-size > 30px {
+    color: gray;
+  }
+}
+
+.my-paragraph {
+  // include your mixin
+
+  @include font-size(31px);
 }

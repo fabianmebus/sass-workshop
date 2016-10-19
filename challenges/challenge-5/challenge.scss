@@ -19,18 +19,14 @@ $characters: (
   )
 );
 
+@each $character, $properties in $characters {
 
+  .character-#{$character} {
+    background: url('#{map-get($properties, 'bgImage')}') map-get($properties, 'bgColor');
+    color: map-get($properties, 'color');
+  }
 
-
-
-
-
-
-
-
-
-
-
+}
 
 // ============================================================================
 // You don't have to change the following lines to complete the challenge.

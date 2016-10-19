@@ -6,7 +6,7 @@
 // CSS should be exactly (!) the same.
 // ============================================================================
 
-main div.mod h3 {
+/*main div.mod h3 {
   color: hotpink;
 }
 
@@ -20,6 +20,31 @@ main div.mod .module-1 {
 
 main div.mod .module-2 {
   color: greenyellow;
+}*/
+
+main {
+  div.mod {
+
+    h3 {
+      color: hotpink;
+    }
+
+    p {
+      color: gold;
+    }
+
+    .module {
+
+      &-1 {
+        color: cornflowerblue;
+      }
+
+      &-2 {
+        color: greenyellow;
+      }
+
+    }
+  }
 }
 
 // ============================================================================
